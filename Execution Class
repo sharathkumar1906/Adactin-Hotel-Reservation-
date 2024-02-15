@@ -1,0 +1,215 @@
+package com.execution;
+
+import java.io.IOException;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.base.AdactinBase;
+import com.pojo.AdictinPojo;
+
+@Listeners(ListnerActions.class)
+public class AdactinExecute extends AdactinBase {
+	public static ExtentReports reports;
+
+	@BeforeClass
+	public static void reportgeneration() {
+		reports = new ExtentReports();
+		ExtentSparkReporter s = new ExtentSparkReporter(
+				"D:\\Eclipse workspace\\AdactinPage\\report\\adactinFullReport.html");
+		reports.attachReporter(s);
+		ExtentTest test = reports.createTest("Execution Startes");
+	}
+
+	// Login Page
+	@Test
+	public void testcase1() throws IOException {
+		ExtentTest test1 = reports.createTest("Login Page");
+		test1.info("Checked this page with multiple inputs which are given in excel sheet");
+		launchBroswer("https://adactinhotelapp.com/");
+		bigScreen();
+		currentUrl();
+		AdictinPojo a = new AdictinPojo();
+
+		inputs(a.getUserName(), data(4, 0));
+		String user = a.getUserName().getAttribute("value");
+		System.out.println(user);
+		Assert.assertEquals("Sharathkumar19", user);
+
+		inputs(a.getPassword(), data(4, 1));
+		String password = a.getPassword().getAttribute("value");
+		System.out.println(password);
+		Assert.assertEquals("Kumar@19", password);
+
+		test1.info("Values are entering properly");
+
+		button(a.getLogin());
+		WebElement title = driver.findElement(By.xpath("//*[@class='login_title']"));
+		String text = title.getText();
+		System.out.println("Page title: " + text);
+		if (text.equals("Search Hotel (Fields marked with Red asterix (*) are mandatory)")) {
+			test1.pass("Login completed, Page directed to search hotel page");
+		} else {
+			test1.fail("Invalid");
+		}
+
+	}
+
+	// Search Hotel
+
+	@Test
+	public void testcase2() throws InterruptedException, IOException {
+		AdictinPojo a = new AdictinPojo();
+		ExtentTest test2 = reports.createTest("Select your Hotel");
+		test2.info("Page transformation from login to page search hotel page looks good");
+
+		dropDown(a.getLocation(), searchData(4, 0));
+		String location = a.getLocation().getAttribute("value");
+		System.out.println("Location: " + location);
+		Assert.assertEquals("Brisbane", location);
+
+		dropDown(a.getHotels(), searchData(3, 1));
+		String hotels = a.getHotels().getAttribute("value");
+		System.out.println("Hotels: " + hotels);
+		Assert.assertEquals("Hotel Sunshine", hotels);
+
+		dropDown(a.getRoomType(), searchData(5, 3));
+		String roomType = a.getRoomType().getAttribute("value");
+		System.out.println("Room Type: " + roomType);
+		Assert.assertEquals("Super Deluxe", roomType);
+
+		dropDown(a.getRooms(), numericData(2, 2));
+		String numberofRooms = a.getRooms().getAttribute("value");
+		System.out.println("Number of Rooms: " + numberofRooms);
+		Assert.assertEquals("1", numberofRooms);
+
+		clearAndsend(a.getCheckIn(), datevalues(3, 7));
+		String checkInDate = a.getCheckIn().getAttribute("value");
+		System.out.println("Date of check in: " + checkInDate);
+		Assert.assertEquals("23/08/2024", checkInDate);
+
+		clearAndsend(a.getCheckOut(), datevalues(4, 7));
+		String checkoutDate = a.getCheckOut().getAttribute("value");
+		System.out.println("Date of check out: " + checkoutDate);
+		Assert.assertEquals("09/09/2024", checkoutDate);
+
+		dropDown(a.getAdultsPerRoom(), numericData(3, 4));
+		String adults = a.getAdultsPerRoom().getAttribute("value");
+		System.out.println("Adults: " + adults);
+		Assert.assertEquals("2", adults);
+
+		dropDown(a.getChilePerRoom(), numericData(3, 5));
+		String child = a.getChilePerRoom().getAttribute("value");
+		System.out.println("Childerns: " + child);
+		Assert.assertEquals("1", child);
+
+		test2.info("All drop downs and inputs giving boxes working properly");
+
+		button(a.getSearch());
+
+		WebElement title = driver.findElement(By.xpath("//*[@class='login_title']"));
+		String text = title.getText();
+		System.out.println(text);
+
+		if (text.equals("Select Hotel")) {
+			test2.pass("Working");
+		} else {
+			test2.fail("Problem in page changing");
+		}
+
+		button(a.getRadioButton());
+		button(a.getClickContinue());
+
+	}
+
+	// Book Hotel page
+	@Test
+	public void testcase3() throws InterruptedException, IOException {
+		AdictinPojo a = new AdictinPojo();
+		ExtentTest test3 = reports.createTest("Book Hotel Page");
+
+		inputs(a.getFirstName(), ourdata(2, 0));
+		String firstName = a.getFirstName().getAttribute("value");
+		System.out.println(firstName);
+		Assert.assertEquals("sharath", firstName);
+
+		inputs(a.getLastName(), ourdata(2, 1));
+		String lastName = a.getLastName().getAttribute("value");
+		System.out.println(lastName);
+		Assert.assertEquals("kumar", lastName);
+
+		inputs(a.getBillingAddress(), ourdata(2, 2));
+		String address = a.getBillingAddress().getAttribute("value");
+		System.out.println("Billing Address: " + address);
+		Assert.assertEquals("postal colony", address);
+
+		inputs(a.getCardNumber(), numerics(2, 3));
+		String cardNumber = a.getCardNumber().getAttribute("value");
+		System.out.println("Card Number: " + cardNumber);
+		Assert.assertEquals("1234567890123450", cardNumber);
+
+		dropDown(a.getCrediCardType(), ourdata(3, 4));
+		String cardType = a.getCrediCardType().getAttribute("value");
+		System.out.println("Card Type: " + cardType);
+		Assert.assertEquals("VISA", cardType);
+
+		menu(a.getExpireMonth(), ourdata(6, 5));
+		String months = a.getExpireMonth().getAttribute("value");
+		System.out.println("Expire Month: " + months);
+		Assert.assertEquals("5", months);
+
+		dropDowns(a.getExpireYear(), numerics(7, 6));
+		String year = a.getExpireYear().getAttribute("value");
+		System.out.println("Expire Year:  " + year);
+		Assert.assertEquals("2027", year);
+
+		inputs(a.getCvvNumber(), numerics(10, 7));
+		String cvv = a.getCvvNumber().getAttribute("value");
+		System.out.println("CVV: " + cvv);
+		Assert.assertEquals("784", cvv);
+
+		button(a.getBookNow());
+
+		test3.info("All input fields and dropDowns are working");
+
+		Thread.sleep(5000);
+
+		WebElement orderNumber = driver.findElement(By.xpath("//*[@id='order_no']"));
+		String text = orderNumber.getAttribute("value");
+		System.out.println("Order number" + text);
+		test3.pass("Order number generated");
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+
+		WebElement scrollDown = driver.findElement(By.id("search_hotel"));
+		js.executeScript("arguments[0].scrollIntoView(true)", scrollDown);
+		screenshort();
+	}
+
+	@AfterClass
+	public static void done() {
+		ExtentTest test4 = reports.createTest("Order Number Page");
+		test4.info("Screen short of order number page");
+		test4.info(
+				"On the whole all expected  and actual results got passed and all buttons and links working properly");
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		String screenshotAs = ts.getScreenshotAs(OutputType.BASE64);
+		test4.addScreenCaptureFromBase64String(screenshotAs);
+
+		reports.flush();
+	}
+
+}
