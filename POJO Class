@@ -1,0 +1,204 @@
+package com.pojo;
+
+import javax.swing.text.html.CSS;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.PageFactory;
+
+import com.base.AdactinBase;
+
+public class AdictinPojo extends AdactinBase {
+	public AdictinPojo() {
+		PageFactory.initElements(driver, this);
+	}
+
+	// login page
+
+	@FindBy(xpath = "//*[@id='username']")
+	private WebElement userName;
+	@FindBy(xpath = "(//*[@class='login_input'])[2]")
+	private WebElement password;
+	@FindBy(xpath = "//*[@id='login']")
+	private WebElement login;
+
+	public WebElement getUserName() {
+		return userName;
+	}
+
+	public WebElement getPassword() {
+		return password;
+	}
+
+	public WebElement getLogin() {
+		return login;
+	}
+
+	// Select Hotel
+
+	@FindBy(xpath = "(//*[@class='search_combobox'])[1]")
+	private WebElement location;
+	
+	@FindBy(xpath = "(//*[@class='search_combobox'])[2]")
+	private WebElement hotels;
+	
+	@FindBy(xpath = "(//*[@class='search_combobox'])[3]")
+	private WebElement roomType;
+	
+	@FindBy(xpath = "(//*[@class='search_combobox'])[4]")
+	private WebElement rooms;
+	
+	@FindBy(xpath = "(//*[@class='search_combobox'])[5]")
+	private WebElement adultsPerRoom;
+	
+	@FindBy(xpath = "(//*[@class='search_combobox'])[6]")
+	private WebElement chilePerRoom;
+	
+	@FindBy(xpath = "//*[@id='Submit']")
+	private WebElement search;
+	
+	@FindBy(css = "input[id='datepick_in']")
+	private WebElement checkIn;
+	
+	@FindBy(css = "input[id='datepick_out']")
+	private WebElement checkOut;
+
+	public WebElement getLocation() {
+		return location;
+	}
+
+	public WebElement getHotels() {
+		return hotels;
+	}
+
+	public WebElement getRoomType() {
+		return roomType;
+	}
+
+	public WebElement getRooms() {
+		return rooms;
+	}
+
+	public WebElement getAdultsPerRoom() {
+		return adultsPerRoom;
+	}
+
+	public WebElement getChilePerRoom() {
+		return chilePerRoom;
+	}
+
+	public WebElement getSearch() {
+		return search;
+	}
+	
+	public WebElement getCheckIn() {
+		return checkIn;
+	}
+
+	public WebElement getCheckOut() {
+		return checkOut;
+	}
+	
+	
+
+	// Select Hotel
+
+
+
+	@FindBy(name = "radiobutton_0")
+	private WebElement radioButton;
+
+	@FindBy(xpath = "//*[@id='continue']")
+	private WebElement clickContinue;
+
+	@FindBy(xpath = "(//*[@class='reg_button'])[2]")
+	private WebElement clickCancle;
+
+	public WebElement getRadioButton() {
+		return radioButton;
+	}
+
+	public WebElement getClickContinue() {
+		return clickContinue;
+	}
+
+	public WebElement getClickCancle() {
+		return clickCancle;
+	}
+	
+	//Booking Details
+	
+	@FindBy(xpath = "//*[@id='first_name']")
+	private WebElement firstName;
+	
+	@FindBy(xpath = "(//*[@class='reg_input'])[2]")
+	private WebElement lastName;
+	
+	@FindBy(xpath = "//*[@id='address']")
+	private WebElement billingAddress;
+	
+	@FindBy(xpath = "//*[@id='cc_num']")
+	private WebElement cardNumber;
+	
+	@FindBy(xpath = "//*[@id='cc_type']")
+	private WebElement crediCardType;
+	
+	@FindBy(xpath = "//*[@id='cc_exp_month']")
+	private WebElement expireMonth;
+	
+	@FindBy(xpath = "//*[@id='cc_exp_year']")
+	private WebElement expireYear;
+	
+	@FindBy(xpath = "(//*[@class='reg_input'])[4]")
+	private WebElement cvvNumber;
+	
+	public WebElement getFirstName() {
+		return firstName;
+	}
+
+	public WebElement getLastName() {
+		return lastName;
+	}
+
+	public WebElement getBillingAddress() {
+		return billingAddress;
+	}
+
+	public WebElement getCardNumber() {
+		return cardNumber;
+	}
+
+	public WebElement getCrediCardType() {
+		return crediCardType;
+	}
+
+	public WebElement getExpireMonth() {
+		return expireMonth;
+	}
+
+	public WebElement getExpireYear() {
+		return expireYear;
+	}
+
+	public WebElement getCvvNumber() {
+		return cvvNumber;
+	}
+
+	public WebElement getBookNow() {
+		return bookNow;
+	}
+
+	public WebElement getCancel() {
+		return cancel;
+	}
+
+	@FindBy(xpath = "//*[@id='book_now']")
+	private WebElement bookNow;
+	
+	@FindBy(xpath = "//*[@id='cancel']")
+	private WebElement cancel;
+
+	
+
+}
