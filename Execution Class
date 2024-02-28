@@ -7,11 +7,14 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -21,17 +24,33 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.base.AdactinBase;
 import com.pojo.AdictinPojo;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 @Listeners(ListnerActions.class)
 public class AdactinExecute extends AdactinBase {
 	public static ExtentReports reports;
 
+	@Parameters("browser")
 	@BeforeClass
-	public static void reportgeneration() {
+	public static void reportgeneration(String browserName) {
 		reports = new ExtentReports();
 		ExtentSparkReporter s = new ExtentSparkReporter(
 				"D:\\Eclipse workspace\\AdactinPage\\report\\adactinFullReport.html");
 		reports.attachReporter(s);
 		ExtentTest test = reports.createTest("Execution Startes");
+
+		// Cross Browser Testing
+		if (browserName.equals("chrome")) {
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver();
+			System.out.println("Working on Chrome Browser");
+		} else if (browserName.equals("edge")) {
+			WebDriverManager.edgedriver().setup();
+			driver = new EdgeDriver();
+			System.out.println("Working on Edge Browser");
+
+		}
+
 	}
 
 	// Login Page
@@ -39,7 +58,8 @@ public class AdactinExecute extends AdactinBase {
 	public void testcase1() throws IOException {
 		ExtentTest test1 = reports.createTest("Login Page");
 		test1.info("Checked this page with multiple inputs which are given in excel sheet");
-		launchBroswer("https://adactinhotelapp.com/");
+		driver.get("https://adactinhotelapp.com/");
+		// launchBroswer("https://adactinhotelapp.com/");
 		bigScreen();
 		currentUrl();
 		AdictinPojo a = new AdictinPojo();
